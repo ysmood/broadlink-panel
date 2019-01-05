@@ -1,0 +1,28 @@
+<html>
+   <head>
+       <link rel="stylesheet" href="default.css">
+
+       <title>Broadlink Panel</title>
+   </head> 
+
+   <body>
+        <div class="actions">
+        </div>
+
+        <form class="learn" onsubmit="onLearnSubmit(this)">
+            <label>Name <input type="text"></label>
+            <input type="submit" value="Learn">
+        </form>
+
+        <form class="group" onsubmit="onGroupSubmit(this)">
+            <label>Name <input type="text"></label>
+            <input type="submit" value="Add Group">
+        </form>
+
+        <form class="delete" onsubmit="onDeleteSubmit(this)">
+            <input type="submit" value="Delete">
+        </form>    
+   </body>
+
+   <script src="app.js"></script>
+</html>

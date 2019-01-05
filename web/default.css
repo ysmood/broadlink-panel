@@ -1,0 +1,30 @@
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.action {
+    margin: 2%;
+    flex: 0 46%;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    box-shadow: 0 0 5px #aaa;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+}
+
+.action a {
+    padding: 20px;
+    flex-grow: 1;
+    color: black;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.action input {
+    margin-left: 20px;
+}
