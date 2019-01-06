@@ -1,6 +1,6 @@
-![screenshot](./dev/screenshot.jpg)
+The official panel app is too slow, I have to do it to make it usable.
 
-The official panel app is too slow.
+<img src="./dev/screenshot.jpg" alt="screenshot" height="400px" />
 
 # Build
 
