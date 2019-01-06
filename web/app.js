@@ -54,7 +54,7 @@ async function send(name) {
         theme: 'relax',
         type: 'success',
         text: 'Action Done: ' + name,
-        timeout: 2000,
+        timeout: 1000,
         layout: 'bottomRight'
     }).show();
 }
