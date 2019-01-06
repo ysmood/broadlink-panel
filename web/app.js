@@ -40,3 +40,9 @@ function onDeleteSubmit(el) {
     let name = document.querySelector('.action input:checked').value
     el.action = `/delete/${name}`
 }
+
+function onRenameSubmit(el) {
+    let from = document.querySelector('.action input:checked').value
+    let to = el.querySelector("input").value
+    el.action = `/rename/${from}/${to}`
+}

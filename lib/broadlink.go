@@ -120,6 +120,10 @@ func (dev *device) save(name string, data *actionData) error {
 	return g.OutputFile(p, data, nil)
 }
 
+func (dev *device) rename(from, to string) error {
+	return g.Move(dev.path(from), dev.path(to), nil)
+}
+
 func (dev *device) delete(name string) error {
 	return g.Remove(dev.path(name))
 }

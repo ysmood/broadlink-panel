@@ -111,6 +111,10 @@ func (s *server) handler(w http.ResponseWriter, req *http.Request) {
 		w.Write(data)
 		return
 
+	case "rename":
+		g.E(s.dev.rename(args[1], args[2]))
+		s.home(w)
+
 	case "delete":
 		g.E(s.dev.delete(args[1]))
 		s.home(w)
