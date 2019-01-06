@@ -11,20 +11,30 @@
         <div class="actions">
         </div>
 
+        <hr>
+
         <form class="learn" onsubmit="onLearnSubmit(this)">
-            <label>Name <input type="text"></label>
+            <label>Name <input class='n' type="text"></label>
+            <label>Icon <input class='i' type="text"></label>
             <input type="submit" value="Learn">
         </form>
 
+        <hr>
+
         <form class="group" onsubmit="onGroupSubmit(this)">
-            <label>Name <input type="text"></label>
+            <label>Name <input class='n' type="text"></label>
+            <label>Icon <input class='i' type="text"></label>
             <input type="submit" value="Add Group">
         </form>
+
+        <hr>
 
         <form class="group" onsubmit="onRenameSubmit(this)">
             <label>To <input type="text"></label>
             <input type="submit" value="Rename">
         </form>
+
+        <hr>
 
         <form class="delete" onsubmit="onDeleteSubmit(this)">
             <input type="submit" value="Delete">

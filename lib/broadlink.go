@@ -18,6 +18,7 @@ type device struct {
 
 type actionData struct {
 	Actions []string
+	Icon    string
 	IRcode  []byte
 }
 
@@ -35,7 +36,7 @@ func newDevice() (*device, error) {
 	return &device{d}, err
 }
 
-func (dev *device) learn(name string) error {
+func (dev *device) learn(name string, icon string) error {
 	var ircode []byte
 
 	// Enter capturing mode.
@@ -49,7 +50,7 @@ func (dev *device) learn(name string) error {
 		_, ircode, err = dev.d.ReadCapturedRemoteControlCode()
 		if err == nil {
 			g.Log("learned:", name)
-			return dev.save(name, &actionData{IRcode: ircode})
+			return dev.save(name, &actionData{IRcode: ircode, Icon: icon})
 		}
 		if err != broadlink.ErrNotCaptured {
 			return err // real error
@@ -107,11 +108,11 @@ func (dev *device) path(name string) string {
 	return filepath.Join(dbRoot, name+".json")
 }
 
-func (dev *device) addGroup(name string, actions []string) error {
+func (dev *device) addGroup(name string, icon string, actions []string) error {
 	if len(actions) == 0 {
 		return errors.New("group empty")
 	}
-	return dev.save(name, &actionData{Actions: actions})
+	return dev.save(name, &actionData{Actions: actions, Icon: icon})
 }
 
 func (dev *device) save(name string, data *actionData) error {

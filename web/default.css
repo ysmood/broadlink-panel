@@ -16,14 +16,22 @@
     box-sizing: border-box;
 }
 
-.action a {
-    padding: 20px;
+.action div {
+    padding: 20px 5px;
     flex-grow: 1;
     color: black;
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.action img {
+    flex: 1 0 0;
+    min-width: 0;
+    min-height: 0;
+    max-height: 40px;
+    margin: 0 5px;
 }
 
 .action.group {

@@ -54,13 +54,11 @@ func main() {
 		store: sessions.NewCookieStore([]byte(*secret)),
 	}
 
-	http.HandleFunc("/", s.handler)
-
 	g.Log("listen on:", *port)
-	g.E(http.ListenAndServe(":"+*port, nil))
+	g.E(http.ListenAndServe(":"+*port, s))
 }
 
-func (s *server) handler(w http.ResponseWriter, req *http.Request) {
+func (s *server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	defer func() {
 		if r := recover(); r != nil {
 			g.Err(r)
@@ -70,7 +68,10 @@ func (s *server) handler(w http.ResponseWriter, req *http.Request) {
 		}
 	}()
 
-	args := strings.Split(req.URL.Path[1:], "/")
+	if req.URL.RawPath == "" {
+		req.URL.RawPath = req.URL.Path
+	}
+	args := unescape(strings.Split(req.URL.RawPath[1:], "/"))
 
 	if args[0] != "login" && args[0] != "cb" {
 		if !s.isLogin(req) {
@@ -83,18 +84,16 @@ func (s *server) handler(w http.ResponseWriter, req *http.Request) {
 	switch args[0] {
 	case "login":
 		s.login(w, req)
-		return
 
 	case "cb":
 		s.loginCallback(w, req)
-		return
 
 	case "learn":
-		g.E(s.dev.learn(args[1]))
+		g.E(s.dev.learn(args[1], args[2]))
 		s.home(w)
 
 	case "group":
-		g.E(s.dev.addGroup(args[1], args[2:]))
+		g.E(s.dev.addGroup(args[1], args[2], args[3:]))
 		s.home(w)
 
 	case "send":
@@ -109,7 +108,6 @@ func (s *server) handler(w http.ResponseWriter, req *http.Request) {
 		g.E(err)
 
 		w.Write(data)
-		return
 
 	case "rename":
 		g.E(s.dev.rename(args[1], args[2]))
@@ -121,10 +119,7 @@ func (s *server) handler(w http.ResponseWriter, req *http.Request) {
 
 	default:
 		http.FileServer(http.Dir("web")).ServeHTTP(w, req)
-		return
 	}
-
-	w.Write([]byte("OK"))
 }
 
 func (s *server) login(w http.ResponseWriter, req *http.Request) {
@@ -194,4 +189,13 @@ func has(list []string, str string) bool {
 		}
 	}
 	return false
+}
+
+func unescape(list []string) []string {
+	newList := []string{}
+	for _, s := range list {
+		e, _ := url.PathUnescape(s)
+		newList = append(newList, e)
+	}
+	return newList
 }

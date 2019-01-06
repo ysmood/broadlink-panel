@@ -1,7 +1,7 @@
 
 
 
-;(async() => {
+async function main () {
     let res = await fetch("/list")
 
     let data = await res.json()
@@ -11,30 +11,29 @@
 
     for (let k in data) {
         let isGroup = data[k].Actions
-        let actions = isGroup ? `(${data[k].Actions})` : ''
-        html += `<div class="action ${isGroup ? 'group' : ''}">
+        let img = ""
+        if (data[k].Icon) {
+            img = `<img src="${data[k].Icon}">`
+        }
+        html += `<div onclick="send('/send/${k}?token=${token}')" class="action ${isGroup ? 'group' : ''}">
             <input type="checkbox" value="${k}">
-            <a href="/send/${k}?token=${token}">${k} ${actions}</a>
+            ${img}
+            <div>${k}</div>
         </div>`
     }
 
     let container = document.querySelector(".actions")
 
     container.innerHTML = html
-    
-
-})().catch((err) => {
-    alert(err)
-})
+}
 
 function onLearnSubmit(el) {
-   el.action = `/learn/${el.querySelector('input').value}`
+   el.action = `/learn/${el.querySelector('.n').value}/${encodeURIComponent(el.querySelector('.i').value)}`
 }
 
 function onGroupSubmit (el) {
-    let name = el.querySelector("input").value
     actions = [...document.querySelectorAll(".action input:checked")]
-    el.action = `/group/${name}/${actions.map(e => e.value).join('/')}`
+    el.action = `/group/${el.querySelector('.n').value}/${encodeURIComponent(el.querySelector('.i').value)}/${actions.map(e => e.value).join('/')}`
 }
 
 function onDeleteSubmit(el) {
@@ -47,3 +46,11 @@ function onRenameSubmit(el) {
     let to = el.querySelector("input").value
     el.action = `/rename/${from}/${to}`
 }
+
+function send(url) {
+    fetch(url)
+}
+
+main().catch((err) => {
+    alert(err)
+})
