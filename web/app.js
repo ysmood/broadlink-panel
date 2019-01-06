@@ -7,7 +7,6 @@ async function main () {
     let data = await res.json()
 
     let html = ""
-    let token = encodeURIComponent(document.cookie)
 
     for (let k in data) {
         let isGroup = data[k].Actions
@@ -15,7 +14,7 @@ async function main () {
         if (data[k].Icon) {
             img = `<img src="${data[k].Icon}">`
         }
-        html += `<div onclick="send('/send/${k}?token=${token}')" class="action ${isGroup ? 'group' : ''}">
+        html += `<div onclick="send('${k}')" class="action ${isGroup ? 'group' : ''}">
             <input type="checkbox" value="${k}">
             ${img}
             <div>${k}</div>
@@ -47,8 +46,17 @@ function onRenameSubmit(el) {
     el.action = `/rename/${from}/${to}`
 }
 
-function send(url) {
-    fetch(url)
+async function send(name) {
+    let token = encodeURIComponent(document.cookie)
+
+    await fetch(`/send/${name}?token=${token}`)
+    new Noty({
+        theme: 'relax',
+        type: 'success',
+        text: 'Action Done: ' + name,
+        timeout: 2000,
+        layout: 'bottomRight'
+    }).show();
 }
 
 main().catch((err) => {
