@@ -176,7 +176,6 @@ func (s *server) home(w http.ResponseWriter) {
 func (s *server) isLogin(r *http.Request) bool {
 	token := r.URL.Query().Get("token")
 	if token != "" {
-		g.Log(token)
 		r.Header.Set("Cookie", token)
 	}
 

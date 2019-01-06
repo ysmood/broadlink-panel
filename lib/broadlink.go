@@ -77,6 +77,7 @@ func (dev *device) send(name string) error {
 		if err != nil {
 			return err
 		}
+		time.Sleep(500 * time.Millisecond)
 	}
 
 	return nil
@@ -94,7 +95,7 @@ func (dev *device) sendAction(name string) error {
 			panic(err)
 		}
 
-		g.E(dev.d.SendIRRemoteCode(data.IRcode, 1))
+		g.Err(dev.d.SendIRRemoteCode(data.IRcode, 1))
 	})
 	if errs != nil {
 		return errs[0].(error)
@@ -107,6 +108,9 @@ func (dev *device) path(name string) string {
 }
 
 func (dev *device) addGroup(name string, actions []string) error {
+	if len(actions) == 0 {
+		return errors.New("group empty")
+	}
 	return dev.save(name, &actionData{Actions: actions})
 }
 

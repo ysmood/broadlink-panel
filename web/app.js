@@ -10,8 +10,9 @@
     let token = encodeURIComponent(document.cookie)
 
     for (let k in data) {
-        let actions = data[k].Actions ? `(${data[k].Actions})` : ''
-        html += `<div class="action">
+        let isGroup = data[k].Actions
+        let actions = isGroup ? `(${data[k].Actions})` : ''
+        html += `<div class="action ${isGroup ? 'group' : ''}">
             <input type="checkbox" value="${k}">
             <a href="/send/${k}?token=${token}">${k} ${actions}</a>
         </div>`
