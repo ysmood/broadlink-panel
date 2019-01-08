@@ -18,7 +18,7 @@ func main() {
 	case cmdDev.FullCommand():
 		g.Guard([]string{
 			"go", "run", "./lib", "@app.conf",
-		}, []string{"lib/**"}, nil)
+		}, []string{"lib/**", "*.conf", "go.*"}, nil)
 
 	case cmdBuild.FullCommand():
 		g.Remove("dist/**")

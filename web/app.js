@@ -47,9 +47,19 @@ function onRenameSubmit(el) {
 }
 
 async function send(name) {
-    let token = encodeURIComponent(document.cookie)
+    navigator.vibrate(100)
 
+    new Noty({
+        theme: 'relax',
+        type: 'info',
+        text: 'Do: ' + name,
+        timeout: 500,
+        layout: 'bottomRight'
+    }).show();
+
+    let token = encodeURIComponent(document.cookie)    
     await fetch(`/send/${name}?token=${token}`)
+
     new Noty({
         theme: 'relax',
         type: 'success',
