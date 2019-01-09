@@ -47,7 +47,10 @@ function onRenameSubmit(el) {
 }
 
 async function send(name) {
-    navigator.vibrate(100)
+    try {
+        navigator.vibrate(100)
+    } catch (e) {
+    }
 
     new Noty({
         theme: 'relax',
