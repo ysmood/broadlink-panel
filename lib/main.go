@@ -36,7 +36,7 @@ func main() {
 
 	dev, err := newDevice()
 	if err != nil {
-		g.Err(err)
+		g.Log(err)
 	}
 
 	s := &server{

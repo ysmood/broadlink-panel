@@ -14,11 +14,11 @@ async function main () {
         if (data[k].Icon) {
             img = `<img src="${data[k].Icon}">`
         }
-        html += `<div onclick="send('${k}')" class="action ${isGroup ? 'group' : ''}">
+        html += `<a onclick="send('${k}'); return false;" href="${link(k)}" class="action ${isGroup ? 'group' : ''}">
             <input type="checkbox" value="${k}">
             ${img}
             <div>${k}</div>
-        </div>`
+        </a>`
     }
 
     let container = document.querySelector(".actions")
@@ -57,8 +57,7 @@ async function send(name) {
         layout: 'bottomRight'
     }).show();
 
-    let token = encodeURIComponent(document.cookie)    
-    await fetch(`/send/${name}?token=${token}`)
+    await fetch(link(name))
 
     new Noty({
         theme: 'relax',
@@ -67,6 +66,11 @@ async function send(name) {
         timeout: 1000,
         layout: 'bottomRight'
     }).show();
+}
+
+function link(name) {
+    let token = encodeURIComponent(document.cookie)    
+    return `/send/${name}?token=${token}`
 }
 
 main().catch((err) => {

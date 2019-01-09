@@ -96,7 +96,7 @@ func (dev *device) sendAction(name string) error {
 			panic(err)
 		}
 
-		g.Err(dev.d.SendIRRemoteCode(data.IRcode, 1))
+		g.Log(dev.d.SendIRRemoteCode(data.IRcode, 1))
 	})
 	if errs != nil {
 		return errs[0].(error)
