@@ -73,7 +73,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 	args := unescape(strings.Split(req.URL.RawPath[1:], "/"))
 
-	if args[0] != "login" && args[0] != "cb" {
+	if args[0] != "login" && args[0] != "cb" && args[0] != "privacy_policy.html" {
 		if !s.isLogin(req) {
 			w.Header().Set("Location", "/login?backto="+url.QueryEscape(req.URL.Path))
 			w.WriteHeader(http.StatusTemporaryRedirect)
