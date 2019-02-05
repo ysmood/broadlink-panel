@@ -125,7 +125,6 @@ func (s *server) login(w http.ResponseWriter, req *http.Request) {
 	// Redirect user to consent page to ask for permission
 	// for the scopes specified above.
 	url := s.oauth.AuthCodeURL(req.URL.Query().Get("backto"), oauth2.AccessTypeOffline)
-	fmt.Printf("Visit the URL for the auth dialog: %v", url)
 
 	w.Header().Set("Location", url)
 	w.WriteHeader(http.StatusTemporaryRedirect)
