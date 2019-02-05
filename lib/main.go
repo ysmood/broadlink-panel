@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"time"
 
 	"github.com/gorilla/sessions"
 	"github.com/tidwall/gjson"
@@ -154,8 +153,9 @@ func (s *server) loginCallback(w http.ResponseWriter, req *http.Request) {
 	}
 
 	session, err := s.store.Get(req, "token")
-	g.E(err)
-	session.Options.MaxAge = int((365 * 24 * time.Hour).Seconds())
+	if err != nil {
+		g.Err(err)
+	}
 	session.Values["login"] = true
 	session.Save(req, w)
 
@@ -175,7 +175,10 @@ func (s *server) isLogin(r *http.Request) bool {
 	}
 
 	session, err := s.store.Get(r, "token")
-	g.E(err)
+	if err != nil {
+		g.Err(err)
+		return false
+	}
 
 	_, login := session.Values["login"]
 
