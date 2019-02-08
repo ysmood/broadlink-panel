@@ -17,9 +17,10 @@ import (
 )
 
 type server struct {
-	dev   *device
-	oauth *oauth2.Config
-	store *sessions.CookieStore
+	dev    *device
+	oauth  *oauth2.Config
+	store  *sessions.CookieStore
+	static http.Handler
 }
 
 var (
@@ -50,7 +51,8 @@ func main() {
 				TokenURL: "https://oauth2.googleapis.com/token",
 			},
 		},
-		store: sessions.NewCookieStore([]byte(*secret)),
+		store:  sessions.NewCookieStore([]byte(*secret)),
+		static: http.FileServer(http.Dir("web")),
 	}
 
 	g.Log("listen on:", *port)
@@ -117,7 +119,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		s.home(w)
 
 	default:
-		http.FileServer(http.Dir("web")).ServeHTTP(w, req)
+		s.static.ServeHTTP(w, req)
 	}
 }
 
