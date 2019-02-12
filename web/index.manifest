@@ -1,0 +1,14 @@
+CACHE MANIFEST
+# v0.0.2
+
+CACHE:
+index.html
+default.css
+app.js
+favicon.png
+https://unpkg.com/noty/lib/noty.js
+https://unpkg.com/noty/lib/noty.css
+https://unpkg.com/noty/lib/themes/relax.css
+
+NETWORK:
+*
