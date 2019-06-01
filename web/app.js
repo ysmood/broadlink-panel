@@ -6,6 +6,7 @@ async function main () {
 
     let data = await res.json()
 
+    let iconList = {}
     let html = ""
 
     for (let k in data) {
@@ -13,9 +14,10 @@ async function main () {
         let img = ""
         if (data[k].Icon) {
             img = `<img src="${data[k].Icon}">`
+            iconList[data[k].Icon] = true
         }
         html += `<a onclick="send('${k}'); return false;" href="${link(k)}" class="action ${isGroup ? 'group' : ''}">
-            <input type="checkbox" value="${k}">
+            <input type="checkbox" onclick="event.stopPropagation()" value="${k}">
             ${img}
             <div>${k}</div>
         </a>`
@@ -24,6 +26,16 @@ async function main () {
     let container = document.querySelector(".actions")
 
     container.innerHTML = html
+
+    renderIconList(iconList)
+}
+
+function renderIconList(iconList) {
+    html = ""
+    for (let img in iconList) {
+        html += `<a target="_blank" href="${img}"><img src="${img}"></a>`
+    }
+    document.querySelector(".icons").innerHTML = html
 }
 
 function onLearnSubmit(el) {

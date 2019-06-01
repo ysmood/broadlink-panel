@@ -47,3 +47,8 @@ body {
 .action input {
     margin-left: 20px;
 }
+
+.icons img {
+    max-height: 40px;
+    margin: 10px;
+}
