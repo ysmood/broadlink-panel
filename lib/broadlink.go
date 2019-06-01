@@ -134,10 +134,7 @@ func (dev *device) delete(name string) error {
 }
 
 func (dev *device) list() (map[string]actionData, error) {
-	ps, err := g.Glob([]string{dev.path("*")}, nil)
-	if err != nil {
-		return nil, err
-	}
+	ps := g.Walk(dev.path("*")).MustList()
 
 	list := map[string]actionData{}
 	for _, p := range ps {
