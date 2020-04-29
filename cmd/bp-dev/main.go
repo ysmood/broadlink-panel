@@ -1,14 +1,10 @@
 package main
 
 import (
-	"os"
-
 	. "github.com/ysmood/kit"
 )
 
 func main() {
-	os.Chdir(ThisDirPath() + "/../..")
-
 	Tasks().Add(
 		Task("build", "cross build project").Run(func() {
 			E(Remove("dist/**"))
