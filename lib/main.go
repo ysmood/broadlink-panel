@@ -11,7 +11,7 @@ import (
 
 	"github.com/gorilla/sessions"
 	"github.com/tidwall/gjson"
-	g "github.com/ysmood/gokit"
+	g "github.com/ysmood/kit"
 	"golang.org/x/oauth2"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )

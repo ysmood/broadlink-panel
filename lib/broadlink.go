@@ -1,13 +1,15 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/mixcode/broadlink"
-	g "github.com/ysmood/gokit"
+	"github.com/ysmood/kit"
+	g "github.com/ysmood/kit"
 )
 
 const dbRoot = "db"
@@ -85,9 +87,10 @@ func (dev *device) send(name string) error {
 }
 
 func (dev *device) sendAction(name string) error {
-	errs := g.Retry(20, 50*time.Millisecond, func() {
+	sleeper := kit.BackoffSleeper(50*time.Millisecond, 50*time.Millisecond, nil)
+	return g.Retry(context.Background(), sleeper, func() (bool, error) {
 		if !g.FileExists(dev.path(name)) {
-			return
+			return false, nil
 		}
 
 		var data actionData
@@ -97,11 +100,8 @@ func (dev *device) sendAction(name string) error {
 		}
 
 		g.Log(dev.d.SendIRRemoteCode(data.IRcode, 1))
+		return true, nil
 	})
-	if errs != nil {
-		return errs[0].(error)
-	}
-	return nil
 }
 
 func (dev *device) path(name string) string {

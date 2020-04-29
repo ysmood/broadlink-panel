@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	. "github.com/ysmood/gokit"
+	. "github.com/ysmood/kit"
 )
 
 func main() {
