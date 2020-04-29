@@ -14,7 +14,7 @@ func main() {
 				"-ldflags=-w -s",
 				"-o", "dist/broadlink-panel",
 				"./lib",
-			).MustDo()
+			).Env("GOOS=linux").MustDo()
 
 			E(Copy("web", "dist/web"))
 
